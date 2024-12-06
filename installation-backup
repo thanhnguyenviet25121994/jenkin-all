@@ -23,3 +23,11 @@ docker run \
 + root directory for jenkin: /home/sf/jenkin
 + set credential: ssh username with private key (copy the private key)
 + under launch method > advanced > javapath: which java and then copy the path to the box
+
+4/ Build pipeline
+
+5/ setup access control:
+- Create new user: devops
+- Install plugin: Role-based Authorization Strategy
+- Manage jenkin > security > Authorization > Role-based strategy
+- Manage Jenkin > 
