@@ -1,0 +1,64 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Deploy') { 
+            steps {
+                script {
+
+                } 
+            }
+        }
+        stage('Test') { 
+            steps {
+                script {
+                    sh 'echo test the app image'
+                    // Run the image in detach mode and map container port 5000 to localhost:5000
+                    echo 'Run the image'
+                    sh '''#!/bin/bash
+                    docker run --name wizard-almanac-app  -d -p 127.0.0.1:5000:5000 wizard-almanac:${APP_VERSION}
+                    '''  
+                    echo 'Check container status'    
+
+                
+                    //Make a test reuest to the app and check exit status
+                    // Check the exit status (0 means success, non-zero means error)
+                    sh 'chmod +x app/test-app.sh'
+                    sh 'app/test-app.sh'
+                    STATUS = """${sh(
+                            returnStatus: true,
+                            script: 'echo $?'
+                        )}"""
+                    if (STATUS == "0") {
+                        echo 'App is running as intened!'
+                    } else {
+                        echo 'App error'
+                    }           
+                }     
+                
+            }
+        }
+        stage('Garbage collection') { 
+            steps {
+                echo 'Collect and remove garbage...'
+                  script {
+                    echo 'Removing the running wizard-almanac-app container...'
+                    // Stop and remove the container wizard-almanac-app
+                    sh '''#!/bin/bash
+                    docker stop wizard-almanac-app
+                    docker rm wizard-almanac-app
+                    '''  
+                    //Make a test reuest to the app and check exit status
+                    // Check the exit status (0 means success, non-zero means error)
+                    try {
+                        // Run the shell command and check, if found grep wizard-almanac-app, then the app is still running
+                        sh 'docker ps -a | grep wizard-almanac-app'
+                        echo 'wizard-almanac-app still running, encountering error when removing the app!'
+                    } catch (Exception e) {
+                        // If the command fails (non-zero exit code), then the app has been removed
+                        echo 'wizard-almanac-app has been successfully removed!'
+                    }                          
+                }     
+            }
+        }         
+    }
+}
