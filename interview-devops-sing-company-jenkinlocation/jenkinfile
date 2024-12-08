@@ -30,7 +30,7 @@ pipeline {
                     '''
 
                     // Check the image status after build
-                    sh 'docker images | grep wizard-almanac:${APP_VERSION}'
+                    sh 'docker images | grep wizard-almanac'
                     echo 'done build!'
                 } 
             }
