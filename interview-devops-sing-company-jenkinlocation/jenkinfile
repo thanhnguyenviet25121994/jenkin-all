@@ -41,14 +41,16 @@ pipeline {
                 script {
                     sh 'echo test the app image'
                     // Run the image in detach mode and map container port 5000 to localhost:5000
+                    echo 'Run the image'
                     sh '''#!/bin/bash
-                    docker run -d -p 127.0.0.1:5000:5000 wizard-almanac:${APP_VERSION}
-                    '''      
-                    //Make a test reuest to the app and check result
-                    sh 'curl localhost:5000 | grep ${TEST_STRING}'
+                    docker run --name wizard-almanac-app  -d -p 127.0.0.1:5000:5000 wizard-almanac:${APP_VERSION}
+                    '''  
+                    echo 'Check container status'    
 
+                
+                    //Make a test reuest to the app and check exit status
                     // Check the exit status (0 means success, non-zero means error)
-                    def status = sh(script: 'echo $?', returnStdout: true).trim()
+                    def status = sh(script: 'curl localhost:5000 | grep "${TEST_STRING}"', returnStdout: true).trim()
                     if (status == 0) {
                         echo 'App is running as intened!'
                     } else {
