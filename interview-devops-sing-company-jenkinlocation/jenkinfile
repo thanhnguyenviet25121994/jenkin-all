@@ -50,8 +50,8 @@ pipeline {
                 
                     //Make a test reuest to the app and check exit status
                     // Check the exit status (0 means success, non-zero means error)
-                    sh 'app/test-app.sh'
-                    def status = sh(script: 'echo $?', returnStdout: true).trim()
+                    sh "chmod +x -R ${env.WORKSPACE}"
+                    def status = sh(script: 'app/test-app.sh', returnStdout: true).trim()
                     if (status == 0) {
                         echo 'App is running as intened!'
                     } else {
