@@ -37,13 +37,33 @@ pipeline {
         }
         stage('Test') { 
             steps {
-                sh 'echo Test step'
+                sh 'echo test the app image'
+                // Run the image in detach mode and map container port 5000 to localhost:5000
+                sh '''#!/bin/bash
+                docker run -d -p localhost:5000:5000 wizard-almanac:${APP_VERSION}
+                '''      
+                //Make a test reuest to the app and check result
+                sh 'curl localhost:5000 | grep "Welcome to the Wizard"'
+
+                // Check the exit status (0 means success, non-zero means error)
+                def status = sh(script: 'echo $?', returnStdout: true).trim()
+                if (status == 0) {
+                    echo 'App is running as intened!'
+                } else {
+                    echo 'App error'
+                }                
+                
             }
         }
         stage('Publish the image to artifact repo') { 
             steps {
                 sh 'echo Publish step'
             }
-        }        
+        }
+        stage('Garbage collection') { 
+            steps {
+                sh 'echo Publish step'
+            }
+        }         
     }
 }
