@@ -50,7 +50,7 @@ pipeline {
                 
                     //Make a test reuest to the app and check exit status
                     // Check the exit status (0 means success, non-zero means error)
-                    def status = sh(script: 'curl localhost:5000 | grep "${TEST_STRING}"', returnStdout: true).trim()
+                    def status = sh(script: "curl localhost:5000 | grep 'Welcome to the Wizard's Almanac'", returnStdout: true).trim()
                     if (status == 0) {
                         echo 'App is running as intened!'
                     } else {
