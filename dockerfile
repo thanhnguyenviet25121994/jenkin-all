@@ -27,12 +27,12 @@ WORKDIR /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 
-# Step 4: Copy the current directory contents into the container
+# Step 4: Copy the app.py into the container
 # This step is placed after the dependencies installation step (step 3), so that every change to code wont make docker to install dependencies again, instead, it keeps the cache layer
-COPY . /app
+COPY app/app.py /app
 
 # Step 5: Expose the port the app will run on
 EXPOSE 5000
 
-# Step 6: Define the command to run the Flask app
+# Step 6: Run the Flask app
 CMD ["python", "app.py"]
