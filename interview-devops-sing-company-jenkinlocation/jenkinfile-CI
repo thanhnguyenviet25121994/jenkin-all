@@ -65,9 +65,26 @@ pipeline {
                 
             }
         }
-        stage('Publish the image to artifact repo') { 
+        stage('Push the image to company container registy') { 
             steps {
                 sh 'echo Publish step'
+                script {
+                    // login to company container registy
+                    sh 'echo $DOCKER_USER_NAME | docker login -u $DOCKER_PASSWORD --password-stdin'
+                    // tag the image according to the tartet repo
+                    sh 'docker tag wizard-almanac:${APP_VERSION} ${COMPANY_CONTAINER_REGISTRY}/wizard-almanac:${APP_VERSION}'
+                    sh 'docker push ${COMPANY_CONTAINER_REGISTRY}/wizard-almanac:${APP_VERSION}'
+                    // Check after push image
+                    STATUS = """${sh(
+                            returnStatus: true,
+                            script: 'echo $?'
+                        )}"""
+                    if (STATUS == "0") {
+                        echo 'Push image to repo successfully!'
+                    } else {
+                        echo 'Error when push image!'
+                    }
+                }
             }
         }
         stage('Garbage collection') { 
