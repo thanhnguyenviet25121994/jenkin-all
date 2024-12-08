@@ -1,2 +1,1 @@
-package_soft_A
-package_soft_B
+flask==2.0.3
