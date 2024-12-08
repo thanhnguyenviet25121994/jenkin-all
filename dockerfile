@@ -1,10 +1,3 @@
-# Set metadata labels for better control and information
-LABEL version="1.0"
-LABEL description="Flask web application container"
-LABEL maintainer="DevopsX@example.com"
-LABEL repository="https://github.com/this-repo/flask-almanac"
-
-
 # STAGE PYTHON BASE
 #-------------------------
 # Step 1: Use an official Python runtime as a base image
