@@ -82,8 +82,12 @@ pipeline {
                     '''  
                     //Make a test reuest to the app and check exit status
                     // Check the exit status (0 means success, non-zero means error)
-                    def status = sh(script: 'docker ps -a | grep "wizard-almanac-app"', returnStdout: true).trim()
-                    if (status == 1) {
+                    sh 'docker ps -a | grep wizard-almanac-app'
+                    STATUS = """${sh(
+                            returnStatus: true,
+                            script: 'echo $?'
+                        )}"""
+                    if (status == "1") {
                         echo 'wizard-almanac-app has been successfullu remove!'
                     } else {
                         echo 'Error removing wizard-almanac-app!'
