@@ -22,7 +22,7 @@ pipeline {
 
                     // Run the docker build command with build arguments
                     echo 'Start buidling image...'
-                    sh '''#!/bin/bash
+                    sh '''
                     docker build \
                         --build-arg PYTHON_BASE_VERSION=${PYTHON_BASE_VERSION} \
                         --build-arg APP_VERSION=${APP_VERSION} \
