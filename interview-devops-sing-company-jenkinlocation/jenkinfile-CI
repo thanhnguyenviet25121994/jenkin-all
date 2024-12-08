@@ -81,6 +81,7 @@ pipeline {
                         )}"""
                     if (STATUS == "0") {
                         echo 'Push image to repo successfully!'
+                        echo 'latest image is ${COMPANY_CONTAINER_REGISTRY}/wizard-almanac:${APP_VERSION}'
                     } else {
                         echo 'Error when push image!'
                     }
