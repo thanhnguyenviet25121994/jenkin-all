@@ -70,7 +70,7 @@ pipeline {
                 sh 'echo Publish step'
                 script {
                     // login to company container registy
-                    sh 'echo $DOCKER_USER_NAME | docker login -u $DOCKER_PASSWORD --password-stdin'
+                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER_NAME --password-stdin'
                     // tag the image according to the tartet repo
                     sh 'docker tag wizard-almanac:${APP_VERSION} ${COMPANY_CONTAINER_REGISTRY}/wizard-almanac:${APP_VERSION}'
                     sh 'docker push ${COMPANY_CONTAINER_REGISTRY}/wizard-almanac:${APP_VERSION}'
