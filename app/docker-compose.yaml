@@ -9,4 +9,4 @@ services:
   
   environment:
   #The credential to access database might be passed to the container by setting the DATABASE_CREDENTIAL_FILE parameter when run pipeline. If this is not set, an empty file is passed to DATABASE_CREDENTIAL_FILE variable
-    - DATABASE_CREDENTIAL_FILE=${DATABASE_CREDENTIAL_FILE}
+    - DATABASE_CREDENTIAL_FILE: ${DATABASE_CREDENTIAL_FILE}
