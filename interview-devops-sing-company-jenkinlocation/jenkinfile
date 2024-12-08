@@ -22,12 +22,16 @@ pipeline {
 
                     // Run the docker build command with build arguments
                     echo 'Start buidling image...'
-                    sh '''
+                    sh '''#!/bin/bash
                     docker build \
                         --build-arg PYTHON_BASE_VERSION=${PYTHON_BASE_VERSION} \
                         --build-arg APP_VERSION=${APP_VERSION} \
                         -t wizard-almanac:${APP_VERSION} .
                     '''
+
+                    // Check the image status after build
+                    sh 'docker images | grep wizard-almanac:${APP_VERSION}'
+                    echo 'done build!'
                 } 
             }
         }
@@ -36,5 +40,10 @@ pipeline {
                 sh 'echo Test step'
             }
         }
+        stage('Publish the image to artifact repo') { 
+            steps {
+                sh 'echo Publish step'
+            }
+        }        
     }
 }
