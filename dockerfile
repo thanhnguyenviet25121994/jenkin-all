@@ -25,7 +25,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # This step is placed after the dependencies installation step (step 3), so that every change to code wont make docker to install dependencies again, instead, it keeps the cache layer
 COPY app/app.py /app
 
-# Step 5: Expose the port the app will run on
+# Step 5: Expose the port which the app runs on.
 EXPOSE 5000
 
 # Step 6: Run the Flask app
