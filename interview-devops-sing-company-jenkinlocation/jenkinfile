@@ -42,7 +42,7 @@ pipeline {
                     sh 'echo test the app image'
                     // Run the image in detach mode and map container port 5000 to localhost:5000
                     sh '''#!/bin/bash
-                    docker run -d -p localhost:5000:5000 wizard-almanac:${APP_VERSION}
+                    docker run -d -p 127.0.0.1:5000:5000 wizard-almanac:${APP_VERSION}
                     '''      
                     //Make a test reuest to the app and check result
                     sh 'curl localhost:5000 | grep ${TEST_STRING}'
