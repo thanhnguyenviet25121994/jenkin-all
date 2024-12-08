@@ -1,0 +1,31 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Build') { 
+            steps {
+                sh 'echo buid step with the ${versionTag} version!'
+                script {
+                    // Check if requirement is set and not empty
+                    if (env.requirement?.trim()) {
+                        // Run the command only if requirement is not empty
+                        echo 'requirement.txt has been set, overriding...'
+                        sh '''
+                        echo $requirement | base64 -d > requirements.txt
+                        '''
+                    } else {
+                        echo "requirement is not set, using default file in repo"
+                    }
+                } 
+                
+                echo 'show content of requirement.txt file'
+                sh 'cat requirements.txt'
+                sh 'touch test-jenkin'
+            }
+        }
+        stage('Test') { 
+            steps {
+                sh 'echo Test step'
+            }
+        }
+    }
+}
