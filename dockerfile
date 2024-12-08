@@ -17,6 +17,7 @@ WORKDIR /app
 # Step 3: Install any needed dependencies specified in requirements.txt
 # Note that the requirements.txt can be passed on Jenkin console with the 'build with parameters' option. For more information about this, refer to the userguide document
 # If not passed, the default requirements.txt file will be used
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 
