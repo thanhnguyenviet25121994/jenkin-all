@@ -13,7 +13,7 @@ LABEL repository="https://github.com/this-repo/flask-almanac"
 FROM python:${PYTHON_BASE_VERSION} AS pythonBaseStage
 
 
-# Set default ARG variables for version and tags
+# Set default ARG variables for version and tags. Note that these Build Arguments can be overriden by jenkin parameters when launch pipeline
 ARG PYTHON_BASE_VERSION=3.11-slim
 ARG APP_VERSION=1.0.0
 
