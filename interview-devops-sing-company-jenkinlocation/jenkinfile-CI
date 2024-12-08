@@ -52,7 +52,10 @@ pipeline {
                     // Check the exit status (0 means success, non-zero means error)
                     sh 'chmod +x app/test-app.sh'
                     sh 'app/test-app.sh'
-                    def status = sh(script: '$?', returnStdout: true).trim()
+                    STATUS = """${sh(
+                            returnStatus: true,
+                            script: 'echo $?'
+                        )}"""
                     if (status == 0) {
                         echo 'App is running as intened!'
                     } else {
