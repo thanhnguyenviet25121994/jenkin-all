@@ -3,7 +3,8 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh 'echo buid step with the ${versionTag} version!'
+                sh 'echo buid step with the ${PYTHON_BASE_VERSION} python base version!'
+                sh 'echo buid step with the ${APP_VERSION} python app version!'
                 script {
                     // Check if requirement is set and not empty
                     if (env.requirement?.trim()) {
@@ -15,11 +16,19 @@ pipeline {
                     } else {
                         echo "requirement is not set, using default file in repo"
                     }
+                    echo 'show content of requirement.txt file'
+                    sh 'cat requirements.txt'
+
+
+                    // Run the docker build command with build arguments
+                    echo 'Start buidling image...'
+                    sh '''#!/bin/bash
+                    docker build \
+                        --build-arg PYTHON_BASE_VERSION=${PYTHON_BASE_VERSION} \
+                        --build-arg APP_VERSION=${APP_VERSION} \
+                        -t wizard-almanac:${APP_VERSION} .
+                    '''
                 } 
-                
-                echo 'show content of requirement.txt file'
-                sh 'cat requirements.txt'
-                sh 'touch test-jenkin'
             }
         }
         stage('Test') { 
